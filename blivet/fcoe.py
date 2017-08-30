@@ -125,9 +125,10 @@ class FCoE(object):
 
         rc = 0
         out = ""
-        timeout = 60
         error_msg = ""
         if dcb:
+            timeout = 60
+            timeout_msg = ""
             self._start_lldpad()
 
             command_list = [
@@ -148,14 +149,15 @@ class FCoE(object):
                 if timeout <= 0:
                     break
 
-            time.sleep(1)
+            if rc == 0:
+                time.sleep(1)
+            else:
+                log.info("Timed out when %s", timeout_msg)
 
         if rc == 0:
             self.write_nic_fcoe_cfg(nic, dcb=dcb, auto_vlan=auto_vlan)
             rc, out = util.run_program_and_capture_output(
                 ["systemctl", "restart", "fcoe.service"])
-        else:
-            log.info("Timed out when %s", timeout_msg)
 
         if rc == 0:
             self._stabilize()
