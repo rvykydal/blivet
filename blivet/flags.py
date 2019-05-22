@@ -77,6 +77,9 @@ class Flags(object):
         # (so far only for LUKS)
         self.discard_new = False
 
+        # wheteher cdroms should be made protected during devicetree population
+        self.protect_cdroms = True
+
         self.boot_cmdline = {}
 
         self.update_from_boot_cmdline()

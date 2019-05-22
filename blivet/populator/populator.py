@@ -415,6 +415,8 @@ class PopulatorMixin(object):
         finally:
             parted.clear_exn_handler()
             self._hide_ignored_disks()
+            if flags.protect_cdroms:
+                self._protect_cdroms()
 
         if flags.auto_dev_updates:
             self.teardown_all()

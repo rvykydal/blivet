@@ -936,6 +936,12 @@ class DeviceTreeBase(object):
                 if ignored:
                     self.hide(disk)
 
+    def _protect_cdroms(self):
+        # protect cdrom devices
+        for device in self._devices:
+            if device.type == "cdrom":
+                log.debug("protecting cdrom %s", device.name)
+                device.protected = True
 
 class DeviceTree(DeviceTreeBase, PopulatorMixin, EventHandlerMixin):
     def __init__(self, ignored_disks=None, exclusive_disks=None, disk_images=None):
